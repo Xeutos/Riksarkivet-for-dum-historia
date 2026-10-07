@@ -4,5 +4,16 @@
 *.iml
 *.ipr
 
+### Node ###
+node_modules/
+npm-debug.log*
+
+### Vue/Vite build ###
+dist/
+
 ### Environmental Variables ###
 .env
+
+### OS ###
+.DS_Store
+Thumbs.db
