@@ -1,0 +1,137 @@
+{
+  "articles": [
+    {
+      "artikelId": 1,
+      "titel": "The gory history of Europeans eating mummies for health",
+      "beskrivning": "Eating mummies may sound unthinkable, but in 15th-century Europe this type of medical cannibalism was touted as the remedy for headaches, stomach ailments, and even cancer. For centuries, embalmed bodies were prized across the continent, not for their historical value, but for their purported medical benefits. Here’s the surprising reason that people once craved, and ate, mummies.",
+      "bild": {
+        "bildUrl": "",
+        "bildText": ""
+      },
+      "epok": "Medieval",
+      "årtalStart": 1000,
+      "årtalSlut": 1800
+    },
+    {
+      "artikelId": 2,
+      "titel": "Did you know that during its last war, Liechtenstein managed to return home with more soldiers than they left with?",
+      "beskrivning": "In 1866, the small principality of Liechtenstein sent out 80 soldiers to participate in the Austro-Prussian War. When the troops headed home, it turned out the force no longer consisted of 80 men—but 81.",
+      "bild": {
+        "bildUrl": "",
+        "bildText": ""
+      },
+      "epok": "Modern History",
+      "årtalStart": 1866,
+      "årtalSlut": 1866
+    },
+    {
+      "artikelId": 3,
+      "titel": "Did you know that a French lawyer successfully defended a rat population in court?",
+      "beskrivning": "In 16th-century France, the rats of Autun were summoned to an ecclesiastical court for destroying barley crops. When none of the rodents appeared, young defense attorney Bartholomé Chassenée delivered a masterclass in legal ingenuity to secure their acquittal.",
+      "bild": {
+        "bildUrl": "",
+        "bildText": ""
+      },
+      "epok": "Medieval History",
+      "årtalStart": 1520,
+      "årtalSlut": 1530
+    },
+    {
+      "artikelId": 4,
+      "titel": "Did you know that chess could be considered the very first esports event?",
+      "beskrivning": "In 1897, the U.S. House of Representatives held a series of chess matches to determine its most skilled players, who then faced their counterparts in the British House of Commons—across the Atlantic via telegraph cables.",
+      "bild": {
+        "bildUrl": "",
+        "bildText": ""
+      },
+      "epok": "Modern History",
+      "årtalStart": 1897,
+      "årtalSlut": 1897
+    },
+    {
+      "artikelId": 5,
+      "titel": "Did you know that 'sexpionage' and honey traps evolved from human seduction to digital deception?",
+      "beskrivning": "The intertwining of sex and espionage—often referred to as 'sexpionage' or 'honey traps'—has been used for centuries to extract secrets, but today it is shifting into cyber warfare and deepfakes.",
+      "bild": {
+        "bildUrl": "",
+        "bildText": ""
+      },
+      "epok": "Modern History",
+      "årtalStart": 1900,
+      "årtalSlut": 2026
+    },
+    {
+      "artikelId": 6,
+      "titel": "Did you know that in medieval Germany, couples could settle marital disputes through trial by combat?",
+      "beskrivning": "In 15th-century Germany, legally sanctioned duels allowed husbands and wives to settle severe marital disputes in the ring under strict handicap rules designed to level the playing field.",
+      "bild": {
+        "bildUrl": "",
+        "bildText": ""
+      },
+      "epok": "Medieval History",
+      "årtalStart": 1467,
+      "årtalSlut": 1467
+    },
+    {
+      "artikelId": 7,
+      "titel": "Did you know that the ancient Greeks built an analog computer over 2,000 years ago?",
+      "beskrivning": "Discovered in a shipwreck in 1901, the Antikythera mechanism is an ancient Greek hand-crafted mechanical calculator used to predict astronomical positions and eclipses decades in advance.",
+      "bild": {
+        "bildUrl": "",
+        "bildText": ""
+      },
+      "epok": "Ancient History",
+      "årtalStart": -200,
+      "årtalSlut": -60
+    },
+    {
+      "artikelId": 8,
+      "titel": "When Pepsi Became a Military Superpower",
+      "beskrivning": "In 1989, a soda company briefly owned more warships than most countries. This is the wild true story of how Pepsi brokered a Cold War arms deal without firing a shot.",
+      "bild": {
+        "bildUrl": "",
+        "bildText": ""
+      },
+      "epok": "Modern History",
+      "årtalStart": 1989,
+      "årtalSlut": 1989
+    },
+    {
+      "artikelId": 9,
+      "titel": "Did you know that almost all modern alphabets can trace their roots back to a single ancient script?",
+      "beskrivning": "Developed around 1050 BC, the Phoenician alphabet revolutionized human communication by replacing complex ideograms with a simple phonetic system that became the direct ancestor of nearly all modern alphabets.",
+      "bild": {
+        "bildUrl": "",
+        "bildText": ""
+      },
+      "epok": "Ancient History",
+      "årtalStart": -1050,
+      "årtalSlut": -150
+    },
+    {
+      "artikelId": 10,
+      "titel": "The Great Emu War: How Flightless Birds Beat the Australian Army",
+      "beskrivning": "Emu War, short-lived and ultimately unsuccessful military operation to address the issue of emus—large flightless birds native to Australia—damaging large amounts of crops in Western Australia. The campaign lasted from November to December 1932. Three members of the Royal Australian Artillery were assigned to cull roughly 20,000 emus using machine guns, but both the weapons and tactics employed proved wholly unsuited for the task. The assignment was made in response to petitions from local farmers complaining of emus destroying their crops. After two months, fewer than 1,000 emus were reported killed. The failure was the subject of national and international ridicule.",
+      "bild": {
+        "bildUrl": "",
+        "bildText": ""
+      },
+      "epok": "Modern History",
+      "årtalStart": 1932,
+      "årtalSlut": 1932
+    },
+    {
+      "artikelId": 11,
+      "titel": "Did you know that during the Cold War, the CIA tried to train cats to be secret eavesdroppers?",
+      "beskrivning": "In the 1960s, the CIA launched Operation Acoustic Kitty, a multi-million-dollar project that surgically implanted covert listening devices into cats to spy on Soviet embassies.",
+      "bild": {
+        "bildUrl": "",
+        "bildText": ""
+      },
+      "epok": "Modern History",
+      "årtalStart": 1960,
+      "årtalSlut": 1967
+    }
+  ]
+}
+
