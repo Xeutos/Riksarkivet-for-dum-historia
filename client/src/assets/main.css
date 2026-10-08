@@ -168,3 +168,28 @@ h1 {
   font-style: italic;
   color: var(--ink-muted);
 }
+.article-card {
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  transition: transform 0.15s;
+
+
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.article-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--ink);
+  flex-shrink: 0; 
+}
+
+.article-content {
+  flex: 1;
+}
