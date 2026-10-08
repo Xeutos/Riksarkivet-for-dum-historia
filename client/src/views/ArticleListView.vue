@@ -21,6 +21,7 @@ function matchesEra(articleEpok, eraId) {
   }
   return false
 }
+
 const filteredArticles = computed(() => {
   if (!era.value) return []
 
@@ -37,26 +38,36 @@ const filteredArticles = computed(() => {
     <h1>{{ era.name }}</h1>
     <p class="period">{{ era.period }}</p>
 
-   <ul v-if="filteredArticles.length" class="article-list">
-  <li v-for="article in filteredArticles" :key="article.artikelId" class="article-card">
-    <img
-      v-if="article.bild && article.bild.bildUrl"
-      :src="article.bild.bildUrl"
-      :alt="article.bild.bildText || article.titel"
-      class="article-image"
-    />
+    <ul v-if="filteredArticles.length" class="article-list">
+      <li v-for="article in filteredArticles" :key="article.artikelId" class="article-card">
+        <img
+          v-if="article.bild && article.bild.bildUrl"
+          :src="article.bild.bildUrl"
+          :alt="article.bild.bildText || article.titel"
+          class="article-image"
+        />
 
-    <div class="article-content">
-      <h2>{{ article.titel }}</h2>
-      <p>{{ article.beskrivning }}</p>
-      <span class="years">
-        ({{ article.årtalStart === article.årtalSlut ? article.årtalStart : `${article.årtalStart} - ${article.årtalSlut}` }})
-      </span>
-    </div>
-  </li>
-</ul>
+        <div class="article-content">
+          <h2>{{ article.titel }}</h2>
+          <p>{{ article.beskrivning }}</p>
+          <span class="years">
+            ({{
+              article.årtalStart === article.årtalSlut
+                ? article.årtalStart
+                : `${article.årtalStart} - ${article.årtalSlut}`
+            }})
+          </span>
+        </div>
+      </li>
+    </ul>
 
     <p v-else class="empty">No stories here yet. The absurdities are on their way!</p>
+
+    <div class="quiz-cta">
+      <RouterLink :to="`/epok/${era.id}/quiz`" class="btn quiz-btn">
+        Ready for the quiz?
+      </RouterLink>
+    </div>
   </section>
 
   <section v-else>
@@ -64,3 +75,6 @@ const filteredArticles = computed(() => {
     <p>This time period seems to have vanished from the archive.</p>
   </section>
 </template>
+
+
+

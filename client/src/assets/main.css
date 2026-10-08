@@ -19,7 +19,7 @@
 
 body {
   margin: 0;
-  background: var(--paper);
+  background-color: #fefbe5;
   color: var(--ink);
   font-family: var(--font-body);
   line-height: 1.6;
@@ -187,9 +187,102 @@ h1 {
   object-fit: cover;
   border-radius: 6px;
   border: 1px solid var(--ink);
-  flex-shrink: 0; 
+  flex-shrink: 0;
 }
 
 .article-content {
   flex: 1;
+}
+
+.back-link {
+  display: inline-block;
+  margin-block: 1.5rem 1rem;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: var(--ink);
+}
+
+.period {
+  color: var(--ink-muted);
+  margin-top: 0;
+}
+
+.article-list {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .article-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.article-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.article-card:hover {
+  transform: translateY(-4px);
+}
+
+.article-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  border-bottom: 2px solid var(--ink);
+}
+
+.article-content {
+  padding: 1.25rem 1.5rem;
+}
+
+.article-content h2 {
+  font-size: 1.25rem;
+  margin: 0 0 0.5rem;
+}
+
+.article-content p {
+  margin: 0 0 0.75rem;
+  color: var(--ink-muted);
+}
+
+.years {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+
+.empty {
+  margin-block: 2rem;
+  font-style: italic;
+  color: var(--ink-muted);
+}
+
+.quiz-cta {
+  display: flex;
+  justify-content: center;
+  margin-block: 2rem 3rem;
+}
+
+.quiz-btn {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 1.1rem;
+  padding: 0.75rem 2rem;
 }
