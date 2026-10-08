@@ -1,35 +1,58 @@
-@import './base.css';
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Source+Sans+3:wght@400;600&display=swap');
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+:root {
+  --paper: #f5efe1;
+  --card: #fffaf0;
+  --ink: #2b2118;
+  --ink-muted: #6b5a48;
+  --accent: #8b2e1f;
+
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Source Sans 3', system-ui, sans-serif;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.6;
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+h1 {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  margin: 0 0 0.5rem;
+}
+
+.container {
+  max-width: 1100px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+.btn {
+  background: var(--accent);
+  color: var(--card);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn:hover {
+  opacity: 0.9;
 }
