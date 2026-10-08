@@ -2,19 +2,19 @@ export const placeholderArticles = [
   {
     id: 1,
     eraId: 1,
-    title: 'Pyramiderna är äldre än mammutarnas utdöende',
-    excerpt: 'När pyramiderna i Giza byggdes fanns det fortfarande mammutar kvar på jorden.',
+    title: 'The last mammoths and the first pyramids in Giza',
+    excerpt: 'When the pyramids in Giza were built, there were still mammoths left on Earth.',
   },
   {
     id: 2,
     eraId: 3,
-    title: 'Kungen som åt ihjäl sig på semlor',
-    excerpt: 'Adolf Fredrik regerade 1751–1771 och dog efter en något överdriven fettisdag.',
+    title: 'Adolf Fredrik and the Fat Tuesday',
+    excerpt: 'Adolf Fredrik ruled from 1751–1771 and died after a somewhat overindulgent fat tuesday.',
   },
   {
     id: 3,
     eraId: 3,
-    title: 'Emukriget 1932',
-    excerpt: 'Australiens militär gick ut i krig mot 20 000 emuer. Emuerna vann.',
+    title: 'The Emu War of 1932',
+    excerpt: 'Australia\'s military went to war against 20,000 emus. The emus won.',
   },
 ]

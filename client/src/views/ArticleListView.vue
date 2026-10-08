@@ -2,98 +2,56 @@
 import { computed } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { eras } from '../data/eras'
-import { placeholderArticles } from '../data/placeholderarticles'
+
+import articleData from '../../../server/articles.json'
 
 const route = useRoute()
 
 const era = computed(() => eras.find((e) => e.id === Number(route.params.id)))
 
-const articles = computed(() =>
-  placeholderArticles.filter((a) => a.eraId === Number(route.params.id))
-)
+function matchesEra(articleEpok, eraId) {
+  const epokLower = articleEpok.toLowerCase()
+
+  if (eraId === 1) {
+    return epokLower.includes('ancient')
+  } else if (eraId === 2) {
+    return epokLower.includes('medieval')
+  } else if (eraId === 3) {
+    return epokLower.includes('modern')
+  }
+  return false
+}
+const filteredArticles = computed(() => {
+  if (!era.value) return []
+
+  return articleData.articles
+    .filter((a) => matchesEra(a.epok, era.value.id))
+    .sort((a, b) => a.årtalSlut - b.årtalSlut)
+})
 </script>
 
 <template>
-  <RouterLink to="/" class="back-link">← Alla epoker</RouterLink>
+  <RouterLink to="/" class="back-link">← Back to all time periods</RouterLink>
 
   <section v-if="era">
     <h1>{{ era.name }}</h1>
     <p class="period">{{ era.period }}</p>
 
-    <ul v-if="articles.length" class="article-list">
-      <li v-for="article in articles" :key="article.id" class="article-card">
-        <h2>{{ article.title }}</h2>
-        <p>{{ article.excerpt }}</p>
+    <ul v-if="filteredArticles.length" class="article-list">
+      <li v-for="article in filteredArticles" :key="article.artikelId" class="article-card">
+        <h2>{{ article.titel }}</h2>
+        <p>{{ article.beskrivning }}</p>
+        <span class="years">
+          ({{ article.årtalStart === article.årtalSlut ? article.årtalStart : `${article.årtalStart} - ${article.årtalSlut}` }})
+        </span>
       </li>
     </ul>
 
-    <p v-else class="empty">Inga historier här ännu. Dumheterna är på väg!</p>
+    <p v-else class="empty">No stories here yet. The absurdities are on their way!</p>
   </section>
 
   <section v-else>
-    <h1>Epoken hittades inte</h1>
-    <p>Den här epoken verkar ha försvunnit ur arkivet.</p>
+    <h1>Time period not found</h1>
+    <p>This time period seems to have vanished from the archive.</p>
   </section>
 </template>
-
-<style scoped>
-.back-link {
-  display: inline-block;
-  margin-block: 1.5rem 1rem;
-  color: var(--ink-muted);
-  text-decoration: none;
-}
-
-.back-link:hover {
-  color: var(--ink);
-}
-
-.period {
-  color: var(--ink-muted);
-  margin-top: 0;
-}
-
-.article-list {
-  list-style: none;
-  padding: 0;
-  margin: 2rem 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-
-}
-@media (max-width: 768px) {
-  .article-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-.article-card {
-  background: var(--card);
-  border: 2px solid var(--ink);
-  border-radius: 8px;
-  padding: 1.25rem 1.5rem;
-  cursor: pointer;
-  transition: transform 0.15s;
-}
-
-.article-card:hover {
-  transform: translateX(4px);
-}
-
-.article-card h2 {
-  font-size: 1.25rem;
-  margin: 0 0 0.5rem;
-}
-
-.article-card p {
-  margin: 0;
-  color: var(--ink-muted);
-}
-
-.empty {
-  margin-block: 2rem;
-  font-style: italic;
-  color: var(--ink-muted);
-}
-</style>
