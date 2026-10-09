@@ -132,8 +132,13 @@ h1 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-
 }
+
+.article-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 @media (max-width: 768px) {
   .article-list {
     grid-template-columns: repeat(2, 1fr);
@@ -147,6 +152,7 @@ h1 {
   padding: 1.25rem 1.5rem;
   cursor: pointer;
   transition: transform 0.15s;
+  text-decoration: none;
 }
 
 .article-card:hover {

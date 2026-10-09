@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { eras } from '../data/eras'
 
-import articleData from '../../../server/articles.json'
+import articleData from '../data/articles.json'
 
 const route = useRoute()
 
@@ -39,11 +39,13 @@ const filteredArticles = computed(() => {
 
     <ul v-if="filteredArticles.length" class="article-list">
       <li v-for="article in filteredArticles" :key="article.artikelId" class="article-card">
-        <h2>{{ article.titel }}</h2>
-        <p>{{ article.beskrivning }}</p>
-        <span class="years">
-          ({{ article.årtalStart === article.årtalSlut ? article.årtalStart : `${article.årtalStart} - ${article.årtalSlut}` }})
-        </span>
+        <RouterLink :to="`/article/${article.artikelId}`" class="article-link">
+          <h2>{{ article.titel }}</h2>
+          <p>{{ article.beskrivning }}</p>
+          <span class="years">
+            ({{ article.årtalStart === article.årtalSlut ? article.årtalStart : `${article.årtalStart} - ${article.årtalSlut}` }})
+          </span>
+        </RouterLink>
       </li>
     </ul>
 
