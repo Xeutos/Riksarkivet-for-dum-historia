@@ -1,13 +1,29 @@
 <script setup>
 import { computed } from 'vue'
-import { useRoute, RouterLink } from 'vue-router'
+import { useRoute, useRouter, RouterLink } from 'vue-router'
 import { eras } from '../data/eras'
 
 import articleData from '../../../server/articles.json'
 
 const route = useRoute()
+const router = useRouter()
 
 const era = computed(() => eras.find((e) => e.id === Number(route.params.id)))
+
+const currentIndex = computed(() => eras.findIndex((e) => e.id === Number(route.params.id)))
+
+const prevEra = computed(() => (currentIndex.value > 0 ? eras[currentIndex.value - 1] : null))
+
+const nextEra = computed(() =>
+  currentIndex.value >= 0 && currentIndex.value < eras.length - 1
+    ? eras[currentIndex.value + 1]
+    : null
+)
+
+const selectedEraId = computed({
+  get: () => era.value?.id,
+  set: (id) => router.push(`/epok/${id}`),
+})
 
 function matchesEra(articleEpok, eraId) {
   const epokLower = articleEpok.toLowerCase()
@@ -35,7 +51,14 @@ const filteredArticles = computed(() => {
   <RouterLink to="/" class="back-link">← Back to all time periods</RouterLink>
 
   <section v-if="era">
-    <h1>{{ era.name }}</h1>
+    <label for="era-select" class="sr-only">Choose time period</label>
+    <h1 class="era-title">
+      <span class="select-wrap">
+        <select id="era-select" v-model="selectedEraId" class="era-select">
+          <option v-for="e in eras" :key="e.id" :value="e.id">{{ e.name }}</option>
+        </select>
+      </span>
+    </h1>
     <p class="period">{{ era.period }}</p>
 
     <ul v-if="filteredArticles.length" class="article-list">
@@ -63,11 +86,33 @@ const filteredArticles = computed(() => {
 
     <p v-else class="empty">No stories here yet. The absurdities are on their way!</p>
 
-    <div class="quiz-cta">
+    <nav class="era-nav" aria-label="Time periods">
+      <RouterLink
+        v-if="prevEra"
+        :to="`/epok/${prevEra.id}`"
+        class="era-arrow prev"
+        :aria-label="`Previous time period: ${prevEra.name}`"
+      >
+        <span aria-hidden="true">←</span>
+        <span class="arrow-label">{{ prevEra.name }}</span>
+      </RouterLink>
+      <span v-else></span>
+
       <RouterLink :to="`/epok/${era.id}/quiz`" class="btn quiz-btn">
         Ready for the quiz?
       </RouterLink>
-    </div>
+
+      <RouterLink
+        v-if="nextEra"
+        :to="`/epok/${nextEra.id}`"
+        class="era-arrow next"
+        :aria-label="`Next time period: ${nextEra.name}`"
+      >
+        <span class="arrow-label">{{ nextEra.name }}</span>
+        <span aria-hidden="true">→</span>
+      </RouterLink>
+      <span v-else></span>
+    </nav>
   </section>
 
   <section v-else>
@@ -75,6 +120,3 @@ const filteredArticles = computed(() => {
     <p>This time period seems to have vanished from the archive.</p>
   </section>
 </template>
-
-
-
