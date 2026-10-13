@@ -17,7 +17,7 @@ import { RouterLink } from 'vue-router'
 <style scoped>
 .site-header {
   border-bottom: 2px solid var(--ink);
-  background-color: #c30000;
+  background-color: var(--paper);
 }
 
 .header-inner {
@@ -58,5 +58,5 @@ nav {
 }
 .btn:hover {
   background-color: #e0d8b0;
-} 
+}
 </style>
