@@ -4,7 +4,7 @@
 
       <!-- Optional Hero Image (from metadata if exists) -->
       <figure v-if="articleMeta.bild?.bildUrl" class="hero-figure">
-        <div class="image-frame">
+        <div class="hero-image-frame">
           <img :src="articleMeta.bild.bildUrl" :alt="articleMeta.bild.bildText || articleMeta.titel" />
         </div>
         <figcaption v-if="articleMeta.bild.bildText" class="image-caption">
@@ -34,9 +34,13 @@
           <h2 v-if="index !== 0" class="section-heading">{{ section.rubrik }}</h2>
 
           <!-- Section Image (if URL is populated) -->
-          <figure v-if="section.bild?.bildUrl" class="section-figure">
+          <figure v-if="section.bild?.bildUrl"
+                  class="section-figure"
+                  :class="{'isFloated': isSmallImage(section.bild.bildUrl)}">
             <div class="image-frame">
-              <img :src="section.bild.bildUrl" :alt="section.bild.bildText || section.rubrik" />
+              <img :src="section.bild.bildUrl"
+                   :alt="section.bild.bildText || section.rubrik"
+                   @load="handleImageLoad($event, section.bild.bildUrl)"/>
             </div>
             <figcaption v-if="section.bild.bildText" class="image-caption">
               {{ section.bild.bildText }}
@@ -76,6 +80,7 @@
 
 <script setup>
 import { computed } from 'vue';
+import { ref, reactive } from "vue";
 import { useRouter } from 'vue-router';
 
 import metaData from '@/data/articles.json';
@@ -88,6 +93,7 @@ const props = defineProps({
   }
 });
 
+const floatedImages= ref({});
 const emit = defineEmits(['back']);
 const router = useRouter();
 
@@ -136,6 +142,28 @@ function handleBack() {
   } else {
     emit('back');
   }
+}
+
+function handleImageLoad(event, url) {
+  if (!url) return;
+  const img = event.target;
+
+  const naturalWidth = img.naturalWidth;
+  const naturalHeight = img.naturalHeight;
+  const parentWidth = img.closest('.section-block')?.clientWidth || window.innerWidth;
+
+  const isNarrowEnough = naturalWidth < (parentWidth * 0.65);
+  const isPortraitOrSquare = naturalWidth <= naturalHeight * 1.3; // Tillåt även lätt rektangulära
+
+  if (isNarrowEnough || isPortraitOrSquare) {
+    floatedImages.value = {
+      ...floatedImages.value,
+      [url]: true
+    };
+  }
+}
+function isSmallImage(url) {
+  return !!floatedImages.value[url];
 }
 </script>
 
