@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
 import { eras } from '../data/eras'
 
-import articleData from '../../../server/articles.json'
+import articleData from '../data/articles.json'
 
 const route = useRoute()
 const router = useRouter()
@@ -63,24 +63,26 @@ const filteredArticles = computed(() => {
 
     <ul v-if="filteredArticles.length" class="article-list">
       <li v-for="article in filteredArticles" :key="article.artikelId" class="article-card">
-        <img
-          v-if="article.bild && article.bild.bildUrl"
-          :src="article.bild.bildUrl"
-          :alt="article.bild.bildText || article.titel"
-          class="article-image"
-        />
+        <RouterLink :to="`/article/${article.artikelId}`" class="article-link">
+          <img
+            v-if="article.bild && article.bild.bildUrl"
+            :src="article.bild.bildUrl"
+            :alt="article.bild.bildText || article.titel"
+            class="article-image"
+          />
 
-        <div class="article-content">
-          <h2>{{ article.titel }}</h2>
-          <p>{{ article.beskrivning }}</p>
-          <span class="years">
+          <div class="article-content">
+            <h2>{{ article.titel }}</h2>
+            <p>{{ article.beskrivning }}</p>
+            <span class="years">
             ({{
-              article.årtalStart === article.årtalSlut
-                ? article.årtalStart
-                : `${article.årtalStart} - ${article.årtalSlut}`
-            }})
+                article.årtalStart === article.årtalSlut
+                  ? article.årtalStart
+                  : `${article.årtalStart} - ${article.årtalSlut}`
+              }})
           </span>
-        </div>
+          </div>
+        </RouterLink>
       </li>
     </ul>
 
