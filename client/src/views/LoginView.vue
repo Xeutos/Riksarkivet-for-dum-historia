@@ -55,7 +55,9 @@
 
       <div class="toggle-container">
         <button type="button" class="toggle-btn" @click="toggleMode">
-          {{ isRegister ? 'Already have an account? Log in' : "Don't have an account? Sign up here" }}
+          {{
+            isRegister ? 'Already have an account? Log in' : "Don't have an account? Sign up here"
+          }}
         </button>
       </div>
     </div>
@@ -63,8 +65,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import {ref} from 'vue'
+import {useRouter} from 'vue-router'
 
 const router = useRouter()
 
@@ -85,9 +87,23 @@ async function handleSubmit() {
   errorMessage.value = ''
   successMessage.value = ''
 
-  if (isRegister.value && password.value !== confirmPassword.value) {
-    errorMessage.value = 'Passwords do not match!'
-    return
+  const cleanUsername = username.value.trim()
+
+  if (isRegister.value) {
+    if (cleanUsername.length < 2 || cleanUsername.length > 15) {
+      errorMessage.value = 'Username must be between 2-15 characters'
+      return
+    }
+
+    if (password.value.length < 8) {
+      errorMessage.value = 'Password must be at least 8 characters'
+      return
+    }
+
+    if (password.value !== confirmPassword.value) {
+      errorMessage.value = 'Passwords do not match!'
+      return
+    }
   }
 
   const endpoint = isRegister.value ? '/api/auth/register' : '/api/auth/login'
@@ -95,7 +111,7 @@ async function handleSubmit() {
   try {
     const res = await fetch(`http://localhost:3000${endpoint}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         username: username.value,
         password: password.value
@@ -114,7 +130,7 @@ async function handleSubmit() {
       password.value = '';
       confirmPassword.value = '';
     } else {
-      localStorage.setItem('user', JSON.stringify({ username: username.value }));
+      localStorage.setItem('user', JSON.stringify({username: username.value}));
       window.dispatchEvent(new Event('auth-changed'));
 
       successMessage.value = 'Logged in successfully!';

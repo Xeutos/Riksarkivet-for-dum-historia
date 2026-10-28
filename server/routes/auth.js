@@ -1,36 +1,11 @@
 import express from 'express';
-import cors from 'cors';
-import mysql from 'mysql2/promise';
 import bcrypt from 'bcrypt';
+import { pool } from '../config/db/db.js';
 
-// Read .env from project root
-import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const router = express.Router();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
-
-
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-// 1. Create databasepool for MySQL
-const pool = mysql.createPool({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DB,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
-});
-
-// 2. Endpoint: Register new user
-app.post('/api/auth/register', async (req, res) => {
+// POST /api/auth/register
+router.post('/register', async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !username.trim() || !password) {
@@ -62,8 +37,8 @@ app.post('/api/auth/register', async (req, res) => {
     }
 });
 
-// 3. Endpoint: Log in
-app.post('/api/auth/login', async (req, res) => {
+// POST /api/auth/login
+router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !username.trim() || !password) {
@@ -94,5 +69,4 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
+export default router;
