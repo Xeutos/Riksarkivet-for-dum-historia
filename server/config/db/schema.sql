@@ -1,10 +1,8 @@
-
-
-CREATE DATABASE IF NOT EXISTS riksarkivet
+CREATE DATABASE IF NOT EXISTS Riksarkivet
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
-USE riksarkivet;
+USE Riksarkivet;
 
 DROP TABLE IF EXISTS favorites;
 DROP TABLE IF EXISTS results;
@@ -12,12 +10,11 @@ DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS quiz;
 DROP TABLE IF EXISTS users;
 
-CREATE TABLE users (
-  id           INT AUTO_INCREMENT PRIMARY KEY,
-  username     VARCHAR(50)  NOT NULL UNIQUE,
-  email        VARCHAR(255) NOT NULL UNIQUE,
-  passwordHash VARCHAR(255) NOT NULL,
-  createdAt    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Ett quiz per epok

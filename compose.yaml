@@ -3,7 +3,7 @@ services:
     image: mysql:8.4
     container_name: 'db_riksarkivet'
     environment:
-      MYSQL_DATABASE: riksarkivet
+      MYSQL_DATABASE: ${MYSQL_DB}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -17,8 +17,8 @@ services:
       - '3306:3306'
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./server/db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
-      - ./server/db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+      - ./server/config/db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./server/config/db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
 
 volumes:
   mysql_data:
