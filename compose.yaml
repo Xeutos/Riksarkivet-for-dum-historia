@@ -3,7 +3,7 @@ services:
     image: mysql:8.4
     container_name: 'db_riksarkivet'
     environment:
-      MYSQL_DATABASE: Riksarkivet
+      MYSQL_DATABASE: ${MYSQL_DB}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
