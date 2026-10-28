@@ -1,5 +1,4 @@
--- Riksarkivet för dum historia – databasschema
--- Körs automatiskt av Docker första gången (docker-entrypoint-initdb.d)
+
 
 CREATE DATABASE IF NOT EXISTS riksarkivet
   CHARACTER SET utf8mb4
@@ -7,7 +6,6 @@ CREATE DATABASE IF NOT EXISTS riksarkivet
 
 USE riksarkivet;
 
--- Ta bort i omvänd ordning (tabeller med främmande nycklar först)
 DROP TABLE IF EXISTS favorites;
 DROP TABLE IF EXISTS results;
 DROP TABLE IF EXISTS questions;
@@ -31,7 +29,7 @@ CREATE TABLE quiz (
 CREATE TABLE questions (
   questionId       INT AUTO_INCREMENT PRIMARY KEY,
   quizId           INT NOT NULL,
-  articleId        INT NULL,          -- vilken artikel frågan bygger på (artiklarna ligger i articles.json)
+  articleId        INT NULL,          
   type             ENUM('multiple_choice', 'true_false') NOT NULL DEFAULT 'multiple_choice',
   question         VARCHAR(500) NOT NULL,
   questionImageUrl VARCHAR(500) NULL,
