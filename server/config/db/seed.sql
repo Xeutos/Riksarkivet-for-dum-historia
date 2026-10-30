@@ -1,5 +1,5 @@
 -- Testdata: epoker och quizfrågor. Körs efter schema.sql.
-USE riksarkivet;
+USE Riksarkivet;
 SET NAMES utf8mb4;
 
 INSERT INTO quiz (quizId, epok) VALUES
