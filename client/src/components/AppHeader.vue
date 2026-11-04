@@ -44,13 +44,13 @@ onUnmounted(() => {
 <template>
   <header class="site-header">
     <div class="container header-inner">
-      <RouterLink to="/" class="logo">Riksarkivet</RouterLink>
+      <RouterLink to="/" class="logo">National Archives of Foolish History</RouterLink>
       <nav>
-        <RouterLink to="/" class="nav-link">Hem</RouterLink>
+        <RouterLink to="/" class="nav-link">Home</RouterLink>
 
         <!-- Om INTE inloggad: visa Logga in-knapp -->
         <RouterLink v-if="!currentUser" to="/login" class="btn">
-          Logga in
+          Log in
         </RouterLink>
 
         <!-- Om INLOGGAD: visa användarikon + dropdown -->
@@ -68,7 +68,7 @@ onUnmounted(() => {
           <!-- Dropdown-meny -->
           <div v-if="isDropdownOpen" class="dropdown-menu">
             <button class="dropdown-item logout" @click="handleLogout">
-              Logga ut
+              Log out
             </button>
           </div>
         </div>
@@ -79,22 +79,29 @@ onUnmounted(() => {
 
 <style scoped>
 .site-header {
-  border-bottom: 2px solid var(--ink, #1a1a1a);
-  background-color: var(--paper, #fdfbf7);
+  background-color: #2c2621;
+  border-bottom: 4px solid #8c3b24;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-block: 1rem;
+  padding-block: 0.85rem;
 }
 
 .logo {
   font-family: var(--font-heading, serif);
-  font-size: 1.5rem;
-  color: var(--ink, #1a1a1a);
+  font-size: 1.45rem;
+  letter-spacing: 0.03em;
+  color: #f7f3eb;
   text-decoration: none;
+  font-weight: 700;
+}
+
+.logo:hover {
+  color: #e5a982;
 }
 
 nav {
@@ -104,30 +111,37 @@ nav {
 }
 
 .nav-link {
-  color: var(--ink, #1a1a1a);
+  color: #d8cfc4;
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.15s ease;
 }
 
 .nav-link:hover {
-  text-decoration: underline;
+  color: #ffffff;
+  text-decoration: none;
 }
 
 .btn {
-  background-color: #fefbe5;
-  color: var(--ink, #1a1a1a);
-  border: 1px solid var(--ink, #1a1a1a);
-  border-radius: 4px;
-  padding: 0.5rem 1rem;
+  background-color: transparent;
+  color: #f7f3eb;
+  border: 1.5px solid #d8cfc4;
+  border-radius: 6px;
+  padding: 0.45rem 1rem;
   cursor: pointer;
   text-decoration: none;
   display: inline-block;
   font-weight: 600;
-  transition: background-color 0.2s ease;
+  box-shadow: 2px 2px 0px #8c3b24;
+  transition: all 0.15s ease;
 }
 
 .btn:hover {
-  background-color: #f5eed3;
+  background-color: #e5a982;
+  border-color: #e5a982;
+  color: #8c3b24;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px #110d0a;
 }
 
 /* User Menu & Dropdown */
@@ -139,25 +153,27 @@ nav {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: #fefbe5;
-  color: var(--ink, #1a1a1a);
-  border: 1px solid var(--ink, #1a1a1a);
-  border-radius: 4px;
-  padding: 0.4rem 0.8rem;
+  background-color: #2f251c;
+  color: #f7f3eb;
+  border: 1.5px solid #4a3d31;
+  border-radius: 6px;
+  padding: 0.4rem 0.85rem;
   cursor: pointer;
   font-family: inherit;
   font-size: 0.95rem;
   font-weight: 600;
-  transition: background-color 0.2s ease;
+  transition: all 0.15s ease;
 }
 
 .user-btn:hover {
-  background-color: #f5eed3;
+  background-color: #3b2f24;
+  border-color: #b54930;
 }
 
 .user-icon {
   width: 18px;
   height: 18px;
+  stroke: #e5a982;
 }
 
 .arrow {
@@ -172,12 +188,12 @@ nav {
 .dropdown-menu {
   position: absolute;
   right: 0;
-  top: calc(100% + 0.4rem);
-  background-color: #fefbe5;
-  border: 1px solid var(--ink, #1a1a1a);
-  border-radius: 4px;
-  min-width: 130px;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.08);
+  top: calc(100% + 0.5rem);
+  background-color: #241c15;
+  border: 1.5px solid #4a3d31;
+  border-radius: 6px;
+  min-width: 140px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
   z-index: 100;
@@ -188,20 +204,25 @@ nav {
   background: none;
   border: none;
   text-align: left;
-  padding: 0.6rem 1rem;
+  padding: 0.65rem 1rem;
   cursor: pointer;
   font-size: 0.9rem;
   font-family: inherit;
-  color: var(--ink, #1a1a1a);
+  color: #f7f3eb;
   transition: background-color 0.15s ease;
 }
 
 .dropdown-item:hover {
-  background-color: #f0e6c2;
+  background-color: #352a20;
 }
 
 .dropdown-item.logout {
-  color: #a82323;
+  color: #f87171;
   font-weight: 600;
+  border-top: 1px solid #352a20;
+}
+
+.dropdown-item.logout:hover {
+  background-color: rgba(248, 113, 113, 0.15);
 }
 </style>
