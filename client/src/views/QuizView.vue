@@ -2,10 +2,12 @@
 import { ref, computed, watch } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { eras } from '../data/eras'
+import { useProgressStore } from '../stores/progress'
 
 const API_URL = 'http://localhost:3000/api'
 
 const route = useRoute()
+const progressStore = useProgressStore()
 
 const eraId = computed(() => Number(route.params.id))
 const era = computed(() => eras.find((e) => e.id === eraId.value))
@@ -127,6 +129,11 @@ function saveBest() {
 
 function finishQuiz() {
   saveBest()
+  progressStore.recordResult({
+    quizId: eraId.value,
+    score: score.value,
+    total: questions.value.length,
+  })
   state.value = 'done'
 }
 

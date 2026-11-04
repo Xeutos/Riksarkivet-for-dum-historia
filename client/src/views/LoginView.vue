@@ -118,25 +118,33 @@ async function handleSubmit() {
       })
     })
 
-    const data = await res.text()
+    const rawText = await res.text()
+    let parsedData = null
+    try {
+      parsedData = JSON.parse(rawText)
+    } catch {
+      parsedData = null
+    }
 
     if (!res.ok) {
-      throw new Error(data || 'Something went wrong')
+      const errText = parsedData?.error || parsedData?.message || rawText || 'Something went wrong'
+      throw new Error(errText)
     }
 
     if (isRegister.value) {
-      successMessage.value = 'Account created! You can now log in.';
-      isRegister.value = false;
-      password.value = '';
-      confirmPassword.value = '';
+      successMessage.value = 'Account created! You can now log in.'
+      isRegister.value = false
+      password.value = ''
+      confirmPassword.value = ''
     } else {
-      localStorage.setItem('user', JSON.stringify({username: username.value}));
-      window.dispatchEvent(new Event('auth-changed'));
+      const userObj = parsedData?.user || { username: username.value }
+      localStorage.setItem('user', JSON.stringify(userObj))
+      window.dispatchEvent(new Event('auth-changed'))
 
-      successMessage.value = 'Logged in successfully!';
+      successMessage.value = 'Logged in successfully!'
       setTimeout(() => {
-        router.push('/');
-      }, 500);
+        router.push('/')
+      }, 500)
     }
 
   } catch (err) {

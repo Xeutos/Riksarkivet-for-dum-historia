@@ -3,6 +3,7 @@ import cors from 'cors';
 import { pool } from './config/db/db.js';
 import authRoutes from './routes/auth.js';
 import questionRoutes from './routes/questions.js';
+import resultsRoutes from './routes/results.js';
 
 import dotenv from 'dotenv';
 import path from 'path';
@@ -30,6 +31,7 @@ app.get('/api/health', async (req, res) => {
 // Register routes
 app.use('/api/auth', authRoutes);
 app.use('/api', questionRoutes);
+app.use('/api', resultsRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));

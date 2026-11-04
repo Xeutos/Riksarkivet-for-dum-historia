@@ -4,9 +4,11 @@ import { useRoute, useRouter, RouterLink } from 'vue-router'
 import { eras } from '../data/eras'
 
 import articleData from '../data/articles.json'
+import { useProgressStore } from '../stores/progress'
 
 const route = useRoute()
 const router = useRouter()
+const progressStore = useProgressStore()
 
 const era = computed(() => eras.find((e) => e.id === Number(route.params.id)))
 
@@ -45,6 +47,12 @@ const filteredArticles = computed(() => {
     .filter((a) => matchesEra(a.epok, era.value.id))
     .sort((a, b) => a.årtalSlut - b.årtalSlut)
 })
+
+const isCurrentEraPassed = computed(() => {
+  if (!era.value) return false
+  const ids = filteredArticles.value.map((a) => a.artikelId)
+  return progressStore.isEraPassed(era.value.id, ids)
+})
 </script>
 
 <template>
@@ -61,6 +69,17 @@ const filteredArticles = computed(() => {
     </h1>
     <p class="period">{{ era.period }}</p>
 
+    <div v-if="isCurrentEraPassed" class="era-completed-banner">
+      <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+        <path
+          fill-rule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      <span>Time period completed!</span>
+    </div>
+
     <ul v-if="filteredArticles.length" class="article-list">
       <li v-for="article in filteredArticles" :key="article.artikelId" class="article-card">
         <RouterLink :to="`/article/${article.artikelId}`" class="article-link">
@@ -72,7 +91,23 @@ const filteredArticles = computed(() => {
           />
 
           <div class="article-content">
-            <h2>{{ article.titel }}</h2>
+            <div class="card-title-row">
+              <h2>{{ article.titel }}</h2>
+              <span
+                v-if="progressStore.isArticlePassed(article.artikelId)"
+                class="article-card-checkmark"
+                title="Article completed!"
+              >
+                <svg class="card-check-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span class="check-label">Completed</span>
+              </span>
+            </div>
             <p>{{ article.beskrivning }}</p>
             <span class="years">
             ({{
@@ -122,3 +157,59 @@ const filteredArticles = computed(() => {
     <p>This time period seems to have vanished from the archive.</p>
   </section>
 </template>
+
+<style scoped>
+.era-completed-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #e8f5e9;
+  border: 1.5px solid #2e7d32;
+  color: #1b5e20;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.check-icon {
+  width: 18px;
+  height: 18px;
+  color: #2e7d32;
+}
+
+.card-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+
+.card-title-row h2 {
+  margin: 0;
+  flex: 1;
+}
+
+.article-card-checkmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: #e8f5e9;
+  border: 1px solid #2e7d32;
+  color: #1b5e20;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.card-check-icon {
+  width: 14px;
+  height: 14px;
+  color: #2e7d32;
+}
+</style>

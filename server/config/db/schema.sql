@@ -40,12 +40,13 @@ CREATE TABLE questions (
 CREATE TABLE results (
   resultId    INT AUTO_INCREMENT PRIMARY KEY,
   userId      INT NOT NULL,
-  quizId      INT NOT NULL,
+  quizId      INT NULL,
+  articleId   INT NULL,
   score       INT NOT NULL,
   total       INT NOT NULL,
   completedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (userId) REFERENCES users(id)    ON DELETE CASCADE,
-  FOREIGN KEY (quizId) REFERENCES quiz(quizId) ON DELETE CASCADE
+  FOREIGN KEY (quizId) REFERENCES quiz(quizId) ON DELETE SET NULL
 );
 
 CREATE TABLE favorites (
