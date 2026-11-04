@@ -2,6 +2,26 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { eras } from '../data/eras'
+import articleData from '../data/articles.json'
+import { useProgressStore } from '../stores/progress'
+
+const progressStore = useProgressStore()
+
+function getEraArticleIds(eraId) {
+  return articleData.articles
+    .filter((a) => {
+      const epokLower = a.epok.toLowerCase()
+      if (eraId === 1) return epokLower.includes('ancient')
+      if (eraId === 2) return epokLower.includes('medieval')
+      if (eraId === 3) return epokLower.includes('modern')
+      return false
+    })
+    .map((a) => a.artikelId)
+}
+
+function isEraPassed(eraId) {
+  return progressStore.isEraPassed(eraId, getEraArticleIds(eraId))
+}
 import { quotes } from '../data/quotes'
 
 const carouselRef = ref(null)
@@ -100,19 +120,6 @@ const scroll = (direction) => {
   align-items: center;
 }
 
-.hero-badge {
-  display: inline-block;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 0.25rem 0.75rem;
-  border: 1.5px solid var(--ink);
-  border-radius: 999px;
-  background: var(--card);
-  margin-bottom: 0.75rem;
-  box-shadow: 2px 2px 0 var(--ink);
-}
 
 .hero h1 {
   font-size: 2.5rem;

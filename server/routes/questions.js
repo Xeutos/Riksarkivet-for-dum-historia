@@ -37,6 +37,19 @@ router.get('/quiz/:quizId/questions', async (req, res) => {
   res.json(rows)
 })
 
+router.get('/articles/:articleId/questions', async (req, res) => {
+  try {
+    const [rows] = await pool.execute(
+      'SELECT * FROM questions WHERE articleId = ? ORDER BY questionId',
+      [req.params.articleId]
+    )
+    res.json(rows)
+  } catch (err) {
+    console.error('Error fetching questions for article:', err)
+    res.status(500).json({ error: 'Could not fetch questions for article' })
+  }
+})
+
 router.get('/questions/:id', async (req, res) => {
   const [rows] = await pool.execute('SELECT * FROM questions WHERE questionId = ?', [req.params.id])
   if (!rows.length) return res.status(404).json({ error: 'Frågan hittades inte' })

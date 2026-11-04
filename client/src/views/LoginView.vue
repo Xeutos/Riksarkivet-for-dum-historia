@@ -1,6 +1,127 @@
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import antiquityImg from '@/assets/images/antiquity.png'
+import medievalImg from '@/assets/images/medieval.png'
+import modernImg from '@/assets/images/modern-history.png'
+
+const router = useRouter()
+
+const scatteredPhotos = [
+  { src: antiquityImg, top: '4%', left: '3%', rotate: '-7deg', width: '220px' },
+  { src: modernImg, top: '36%', left: '2%', rotate: '4deg', width: '210px' },
+  { src: medievalImg, top: '68%', left: '4%', rotate: '-6deg', width: '230px' },
+  { src: medievalImg, top: '6%', left: '76%', rotate: '6deg', width: '220px' },
+  { src: antiquityImg, top: '38%', left: '77%', rotate: '-4deg', width: '230px' },
+  { src: modernImg, top: '70%', left: '75%', rotate: '7deg', width: '220px' }
+]
+
+const isRegister = ref(false)
+const username = ref('')
+const password = ref('')
+const confirmPassword = ref('')
+const errorMessage = ref('')
+const successMessage = ref('')
+
+function toggleMode() {
+  isRegister.value = !isRegister.value
+  errorMessage.value = ''
+  successMessage.value = ''
+}
+
+async function handleSubmit() {
+  errorMessage.value = ''
+  successMessage.value = ''
+
+  const cleanUsername = username.value.trim()
+
+  if (isRegister.value) {
+    if (cleanUsername.length < 2 || cleanUsername.length > 15) {
+      errorMessage.value = 'Username must be between 2-15 characters'
+      return
+    }
+
+    if (password.value.length < 8) {
+      errorMessage.value = 'Password must be at least 8 characters'
+      return
+    }
+
+    if (password.value !== confirmPassword.value) {
+      errorMessage.value = 'Passwords do not match!'
+      return
+    }
+  }
+
+  const endpoint = isRegister.value ? '/api/auth/register' : '/api/auth/login'
+
+  try {
+    const res = await fetch(`http://localhost:3000${endpoint}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: username.value,
+        password: password.value
+      })
+    })
+
+    const rawText = await res.text()
+    let parsedData = null
+    try {
+      parsedData = JSON.parse(rawText)
+    } catch {
+      parsedData = null
+    }
+
+    if (!res.ok) {
+      const errText = parsedData?.error || parsedData?.message || rawText || 'Something went wrong'
+      throw new Error(errText)
+    }
+
+    if (isRegister.value) {
+      successMessage.value = 'Account created! You can now log in.'
+      isRegister.value = false
+      password.value = ''
+      confirmPassword.value = ''
+    } else {
+      const userObj = parsedData?.user || { username: username.value }
+      localStorage.setItem('user', JSON.stringify(userObj))
+      window.dispatchEvent(new Event('auth-changed'))
+
+      successMessage.value = 'Logged in successfully!'
+      setTimeout(() => {
+        router.push('/')
+      }, 500)
+    }
+  } catch (err) {
+    errorMessage.value = err.message
+  }
+}
+</script>
+
 <template>
   <div class="auth-page">
+    <div class="scattered-background" aria-hidden="true">
+      <div
+        v-for="(photo, index) in scatteredPhotos"
+        :key="index"
+        class="photo-pin"
+        :style="{
+      top: photo.top,
+      left: photo.left,
+      width: photo.width,
+      transform: `rotate(${photo.rotate})`
+    }"
+      >
+        <img :src="photo.src" alt="" class="photo-img" />
+      </div>
+    </div>
+
+    <!-- Inloggningskortet -->
     <div class="auth-card">
+      <div class="badge-wrapper">
+        <span class="auth-badge">{{ isRegister ? 'New Record' : 'Restricted Access' }}</span>
+      </div>
+
       <h2 class="auth-title">
         {{ isRegister ? 'Create Account' : 'Log In' }}
       </h2>
@@ -64,112 +185,99 @@
   </div>
 </template>
 
-<script setup>
-import {ref} from 'vue'
-import {useRouter} from 'vue-router'
-
-const router = useRouter()
-
-const isRegister = ref(false)
-const username = ref('')
-const password = ref('')
-const confirmPassword = ref('')
-const errorMessage = ref('')
-const successMessage = ref('')
-
-function toggleMode() {
-  isRegister.value = !isRegister.value
-  errorMessage.value = ''
-  successMessage.value = ''
-}
-
-async function handleSubmit() {
-  errorMessage.value = ''
-  successMessage.value = ''
-
-  const cleanUsername = username.value.trim()
-
-  if (isRegister.value) {
-    if (cleanUsername.length < 2 || cleanUsername.length > 15) {
-      errorMessage.value = 'Username must be between 2-15 characters'
-      return
-    }
-
-    if (password.value.length < 8) {
-      errorMessage.value = 'Password must be at least 8 characters'
-      return
-    }
-
-    if (password.value !== confirmPassword.value) {
-      errorMessage.value = 'Passwords do not match!'
-      return
-    }
-  }
-
-  const endpoint = isRegister.value ? '/api/auth/register' : '/api/auth/login'
-
-  try {
-    const res = await fetch(`http://localhost:3000${endpoint}`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        username: username.value,
-        password: password.value
-      })
-    })
-
-    const data = await res.text()
-
-    if (!res.ok) {
-      throw new Error(data || 'Something went wrong')
-    }
-
-    if (isRegister.value) {
-      successMessage.value = 'Account created! You can now log in.';
-      isRegister.value = false;
-      password.value = '';
-      confirmPassword.value = '';
-    } else {
-      localStorage.setItem('user', JSON.stringify({username: username.value}));
-      window.dispatchEvent(new Event('auth-changed'));
-
-      successMessage.value = 'Logged in successfully!';
-      setTimeout(() => {
-        router.push('/');
-      }, 500);
-    }
-
-  } catch (err) {
-    errorMessage.value = err.message
-  }
-}
-</script>
-
 <style scoped>
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .auth-page {
-  min-height: calc(100vh - 120px);
+  position: relative;
+  min-height: calc(100vh - 70px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
+  overflow: hidden;
   background-color: var(--paper, #fdfbf7);
 }
 
+/* Container som håller de utspridda bilderna */
+.scattered-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Varje enskild bild med ram och arkivskugga */
+.photo-pin {
+  position: absolute;
+  background: #ffffff;
+  padding: 6px;
+  border: 1.5px solid var(--ink, #2c2621);
+  border-radius: 4px;
+  box-shadow: 3px 5px 0px rgba(44, 38, 33, 0.18);
+  opacity: 0.88; /* Lagom synlig utan att stjäla fokus från kortet */
+  transition: transform 0.3s ease;
+}
+
+.photo-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  border-radius: 2px;
+}
+
+/* Säkerställ att inloggningskortet ligger framför */
 .auth-card {
+  position: relative;
   width: 100%;
   max-width: 420px;
-  background-color: #fefbe5;
-  border: 1.5px solid var(--ink, #1a1a1a);
-  border-radius: 8px;
+  background-color: #ffffff;
+  border: 2px solid var(--ink, #2c2621);
+  border-radius: 12px;
   padding: 2.5rem 2rem;
-  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.08);
+  box-shadow: 6px 8px 0px var(--ink, #2c2621);
+}
+
+/* --- Kortet --- */
+.auth-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background-color: #ffffff;
+  border: 2px solid var(--ink, #2c2621);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  box-shadow: 6px 8px 0px var(--ink, #2c2621);
+}
+
+.badge-wrapper {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.auth-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #b54930;
+  border: 1.5px solid #b54930;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  transform: rotate(-2deg);
 }
 
 .auth-title {
   font-family: var(--font-heading, serif);
   font-size: 2rem;
-  color: var(--ink, #1a1a1a);
-  margin-bottom: 1.5rem;
+  color: var(--ink, #2c2621);
+  margin: 0.25rem 0 1.5rem;
   text-align: center;
 }
 
@@ -188,38 +296,46 @@ async function handleSubmit() {
 label {
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--ink, #1a1a1a);
+  color: var(--ink, #2c2621);
 }
 
 input {
-  padding: 0.65rem 0.8rem;
-  font-size: 1rem;
-  border: 1px solid var(--ink, #1a1a1a);
-  border-radius: 4px;
-  background-color: #ffffff;
-  color: var(--ink, #1a1a1a);
+  padding: 0.75rem 0.9rem;
+  font-size: 0.95rem;
+  border: 1.5px solid var(--ink, #2c2621);
+  border-radius: 6px;
+  background-color: #fdfcf9;
+  color: var(--ink, #2c2621);
   outline: none;
+  transition: all 0.2s ease;
 }
 
 input:focus {
-  outline: 2px solid var(--ink, #1a1a1a);
+  border-color: #b54930;
+  box-shadow: 0 0 0 3px rgba(181, 73, 48, 0.15);
+  background-color: #ffffff;
 }
 
 .submit-btn {
   margin-top: 0.5rem;
   padding: 0.75rem;
   font-size: 1rem;
-  font-weight: bold;
-  background-color: var(--ink, #1a1a1a);
-  color: #fefbe5;
-  border: none;
-  border-radius: 4px;
+  font-weight: 700;
+  background-color: var(--ink, #2c2621);
+  color: #ede6dc;
+  border: 2px solid var(--ink, #2c2621);
+  border-radius: 6px;
   cursor: pointer;
-  transition: opacity 0.2s ease;
+  transition: all 0.15s ease;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.15);
 }
 
 .submit-btn:hover {
-  opacity: 0.9;
+  background-color: #b54930;
+  border-color: #b54930;
+  color: #ffffff;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--ink, #2c2621);
 }
 
 .toggle-container {
@@ -230,32 +346,36 @@ input:focus {
 .toggle-btn {
   background: none;
   border: none;
-  color: var(--ink, #1a1a1a);
+  color: var(--ink, #2c2621);
   text-decoration: underline;
   cursor: pointer;
   font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.15s ease;
 }
 
 .toggle-btn:hover {
-  color: #666;
+  color: #b54930;
 }
 
 .message {
   padding: 0.65rem 0.8rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.25rem;
   font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .error-msg {
   background-color: #fde8e8;
   color: #9b1c1c;
-  border: 1px solid #f8b4b4;
+  border: 1.5px solid #f8b4b4;
 }
 
 .success-msg {
   background-color: #def7ec;
   color: #03543f;
-  border: 1px solid #84e1bc;
+  border: 1.5px solid #84e1bc;
 }
+
 </style>

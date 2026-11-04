@@ -13,7 +13,19 @@
       </figure>
 
       <header class="article-header">
-        <p class="era-tag">{{ formattedTimeline }}</p>
+        <div class="era-tag-row">
+          <p class="era-tag">{{ formattedTimeline }}</p>
+          <span v-if="isPassed" class="article-passed-badge">
+            <svg class="badge-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Completed
+          </span>
+        </div>
         <h1 class="article-title">{{ articleMeta.titel }}</h1>
         <p class="article-lead">{{ articleMeta.beskrivning }}</p>
 
@@ -58,6 +70,9 @@
         </section>
       </div>
 
+      <!-- Article Quiz Section -->
+      <ArticleQuiz :article-id="props.id" :era-id="eraId" />
+
       <!-- Historical Record Footer -->
       <footer class="article-footer">
         <h3 class="footer-heading">Historical Archive Documentation</h3>
@@ -80,11 +95,15 @@
 
 <script setup>
 import { computed } from 'vue';
-import { ref, reactive } from "vue";
+import { ref } from "vue";
 import { useRouter } from 'vue-router';
 
 import metaData from '@/data/articles.json';
 import sectionData from '@/data/article-details.json';
+import ArticleQuiz from '@/components/ArticleQuiz.vue';
+import { useProgressStore } from '@/stores/progress';
+
+const progressStore = useProgressStore();
 
 const props = defineProps({
   id: {
@@ -100,6 +119,16 @@ const router = useRouter();
 const articleMeta = computed(() => {
   const id = Number(props.id);
   return metaData.articles.find(a => a.artikelId === id) || null;
+});
+
+const isPassed = computed(() => progressStore.isArticlePassed(props.id));
+
+const eraId = computed(() => {
+  if (!articleMeta.value?.epok) return 1;
+  const epokLower = articleMeta.value.epok.toLowerCase();
+  if (epokLower.includes('ancient')) return 1;
+  if (epokLower.includes('medieval')) return 2;
+  return 3;
 });
 
 // Find the detailed section entry matching the ID
@@ -169,4 +198,36 @@ function isSmallImage(url) {
 
 <style scoped>
   @import '@/assets/article.css';
+
+  .era-tag-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .era-tag-row .era-tag {
+    margin: 0;
+  }
+
+  .article-passed-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #2e7d32;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .badge-icon {
+    width: 14px;
+    height: 14px;
+    color: #2e7d32;
+  }
 </style>

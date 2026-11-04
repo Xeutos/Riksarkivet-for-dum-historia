@@ -47,11 +47,10 @@ onUnmounted(() => {
       <RouterLink to="/" class="logo">National Archives of Foolish History</RouterLink>
       <nav>
         <RouterLink to="/" class="nav-link">Home</RouterLink>
+        <RouterLink to="/bidra" class="nav-link">Contribute with question</RouterLink>
 
         <!-- Om INTE inloggad: visa Logga in-knapp -->
-        <RouterLink v-if="!currentUser" to="/login" class="btn">
-          Log in
-        </RouterLink>
+        <RouterLink v-if="!currentUser" to="/login" class="btn">Log in</RouterLink>
 
         <!-- Om INLOGGAD: visa användarikon + dropdown -->
         <div v-else class="user-menu-container">
@@ -67,6 +66,13 @@ onUnmounted(() => {
 
           <!-- Dropdown-meny -->
           <div v-if="isDropdownOpen" class="dropdown-menu">
+            <RouterLink to="/mina-resultat" class="dropdown-item" @click="isDropdownOpen = false">
+              My results
+            </RouterLink>
+            <RouterLink to="/bidra" class="dropdown-item" @click="isDropdownOpen = false">
+              Contribute with question
+            </RouterLink>
+            <div class="dropdown-divider"></div>
             <button class="dropdown-item logout" @click="handleLogout">
               Log out
             </button>
@@ -114,12 +120,14 @@ nav {
   color: #d8cfc4;
   text-decoration: none;
   font-weight: 500;
+  display: inline-block;
   transition: color 0.15s ease;
 }
 
 .nav-link:hover {
-  color: #ffffff;
-  text-decoration: none;
+  color: #e5a982;
+  font-weight: 700;
+  transform: scale(1.1);
 }
 
 .btn {
@@ -214,6 +222,12 @@ nav {
 
 .dropdown-item:hover {
   background-color: #352a20;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: rgba(26, 26, 26, 0.15);
+  margin: 0.25rem 0;
 }
 
 .dropdown-item.logout {
