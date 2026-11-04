@@ -47,6 +47,8 @@ onUnmounted(() => {
       <RouterLink to="/" class="logo">Riksarkivet</RouterLink>
       <nav>
         <RouterLink to="/" class="nav-link">Hem</RouterLink>
+        <RouterLink to="/bidra" class="nav-link">Bidra med fråga</RouterLink>
+        <RouterLink v-if="currentUser" to="/mina-resultat" class="nav-link">Mina resultat</RouterLink>
 
         <!-- Om INTE inloggad: visa Logga in-knapp -->
         <RouterLink v-if="!currentUser" to="/login" class="btn">
@@ -67,6 +69,13 @@ onUnmounted(() => {
 
           <!-- Dropdown-meny -->
           <div v-if="isDropdownOpen" class="dropdown-menu">
+            <RouterLink to="/mina-resultat" class="dropdown-item" @click="isDropdownOpen = false">
+              Mina resultat
+            </RouterLink>
+            <RouterLink to="/bidra" class="dropdown-item" @click="isDropdownOpen = false">
+              Bidra med fråga
+            </RouterLink>
+            <div class="dropdown-divider"></div>
             <button class="dropdown-item logout" @click="handleLogout">
               Logga ut
             </button>
@@ -198,6 +207,12 @@ nav {
 
 .dropdown-item:hover {
   background-color: #f0e6c2;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: rgba(26, 26, 26, 0.15);
+  margin: 0.25rem 0;
 }
 
 .dropdown-item.logout {

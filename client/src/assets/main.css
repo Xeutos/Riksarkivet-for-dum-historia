@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Source+Sans+3:wght@400;600&display=swap');
+@import './results.css';
+@import './add-question.css';
 
 :root {
   --paper: #f5efe1;

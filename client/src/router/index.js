@@ -4,6 +4,8 @@ import ArticleListView from '../views/ArticleListView.vue'
 import LoginView from "@/views/LoginView.vue";
 import QuizView from '../views/QuizView.vue'
 import ArticleDetailsView from '../views/ArticleDetailsView.vue'
+import ResultsView from '../views/ResultsView.vue'
+import AddQuestionView from '../views/AddQuestionView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,6 +15,8 @@ const router = createRouter({
     { path: '/epok/:id', name: 'era', component: ArticleListView },
     { path: '/epok/:id/quiz', name: 'quiz', component: QuizView },
     { path: '/article/:id', name: 'article', component: ArticleDetailsView, props: true },
+    { path: '/mina-resultat', name: 'results', component: ResultsView },
+    { path: '/bidra', name: 'add-question', component: AddQuestionView },
   ],
 })
 
