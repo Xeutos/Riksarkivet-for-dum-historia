@@ -37,7 +37,7 @@ watch(selectedQuizId, () => {
 
 async function submitQuestion() {
   if (!questionText.value.trim() || !rightAnswer.value.trim() || !wrongAnswer1.value.trim()) {
-    errorMessage.value = 'Vänligen fyll i frågan, rätt svar och minst ett felaktigt svarsalternativ.'
+    errorMessage.value = 'Please fill in the question, the correct answer, and at least one incorrect answer.'
     return
   }
 
@@ -67,7 +67,7 @@ async function submitQuestion() {
       throw new Error(data.error || `HTTP ${res.status}`)
     }
 
-    feedbackMessage.value = 'Frågan har sparats i databasen!'
+    feedbackMessage.value = 'The question has been saved to the database!'
     // Reset form
     questionText.value = ''
     rightAnswer.value = ''
@@ -79,14 +79,14 @@ async function submitQuestion() {
     await fetchQuestions()
   } catch (err) {
     console.error(err)
-    errorMessage.value = `Kunde inte spara frågan: ${err.message}`
+    errorMessage.value = `Could not save the question: ${err.message}`
   } finally {
     submitting.value = false
   }
 }
 
 async function deleteQuestion(questionId) {
-  if (!confirm('Är du säker på att du vill ta bort denna fråga ur databasen?')) return
+  if (!confirm('Are you sure you want to delete this question from the database?')) return
 
   try {
     const res = await fetch(`${API_URL}/questions/${questionId}`, {
@@ -94,11 +94,11 @@ async function deleteQuestion(questionId) {
     })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
 
-    feedbackMessage.value = 'Frågan togs bort ur databasen.'
+    feedbackMessage.value = 'The question has been deleted from the database.'
     await fetchQuestions()
   } catch (err) {
     console.error(err)
-    alert('Kunde inte ta bort frågan.')
+    alert('Could not delete the question.')
   }
 }
 
@@ -111,16 +111,16 @@ onMounted(() => {
   <main class="add-question-page">
     <div class="container">
       <div class="page-header">
-        <h1>Bidra med en historisk fråga</h1>
+        <h1>Contribute a historical question</h1>
         <p class="subtitle">
-          Lägg till och administrera quiz-frågor direkt i backendens MySQL-databas.
+          Add and manage quiz questions directly in the backend's MySQL database.
         </p>
       </div>
 
       <div class="grid-layout">
         <!-- FORMULÄR -->
         <section class="card form-card">
-          <h2>Skapa ny fråga</h2>
+          <h2>Create new question</h2>
 
           <div v-if="feedbackMessage" class="banner success-banner">
             {{ feedbackMessage }}
@@ -131,7 +131,7 @@ onMounted(() => {
 
           <form @submit.prevent="submitQuestion" class="question-form">
             <div class="form-group">
-              <label for="quiz-select">Välj epok:</label>
+              <label for="quiz-select">Select era:</label>
               <select id="quiz-select" v-model="selectedQuizId" class="form-input">
                 <option v-for="era in eras" :key="era.id" :value="era.id">
                   {{ era.name }} ({{ era.period }})
@@ -140,65 +140,65 @@ onMounted(() => {
             </div>
 
             <div class="form-group">
-              <label for="question-text">Frågeställning *</label>
+              <label for="question-text">Question *</label>
               <textarea
                 id="question-text"
                 v-model="questionText"
                 rows="3"
                 class="form-input"
-                placeholder="T.ex: Vad kallades Gustav Vasas flotta?"
+                placeholder="E.g.: What was the name of Gustav Vasa's fleet?"
                 required
               ></textarea>
             </div>
 
             <div class="form-group">
-              <label for="right-answer">Rätt svar *</label>
+              <label for="right-answer">Right answer *</label>
               <input
                 id="right-answer"
                 v-model="rightAnswer"
                 type="text"
                 class="form-input correct-input"
-                placeholder="Det korrekta svaret"
+                placeholder="The correct answer"
                 required
               />
             </div>
 
             <div class="form-group">
-              <label for="wrong-1">Felaktigt alternativ 1 *</label>
+              <label for="wrong-1">wrong answer 1 *</label>
               <input
                 id="wrong-1"
                 v-model="wrongAnswer1"
                 type="text"
                 class="form-input"
-                placeholder="Ett felaktigt svarsalternativ"
+                placeholder="An incorrect answer"
                 required
               />
             </div>
 
             <div class="form-group">
-              <label for="wrong-2">Felaktigt alternativ 2 (frivilligt)</label>
+              <label for="wrong-2">wrong answer 2 (optional)</label>
               <input
                 id="wrong-2"
                 v-model="wrongAnswer2"
                 type="text"
                 class="form-input"
-                placeholder="Ett annat felaktigt svarsalternativ"
+                placeholder="An other incorrect answer"
               />
             </div>
 
             <div class="form-group">
-              <label for="wrong-3">Felaktigt alternativ 3 (frivilligt)</label>
+              <label for="wrong-3">wrong answer 3 (optional)</label>
               <input
                 id="wrong-3"
                 v-model="wrongAnswer3"
                 type="text"
                 class="form-input"
-                placeholder="Ytterligare ett felaktigt alternativ"
+                placeholder="An additional incorrect answer"
               />
             </div>
 
             <button type="submit" class="btn btn-submit" :disabled="submitting">
-              {{ submitting ? 'Sparar i MySQL...' : 'Spara fråga i databasen' }}
+              {{ submitting ? 'Saving to MySQL...' : 'Save question to database' }}
             </button>
           </form>
         </section>
@@ -209,11 +209,11 @@ onMounted(() => {
           <p class="section-desc">Hämtas dynamiskt via <code>GET /api/quiz/:quizId/questions</code></p>
 
           <div v-if="loadingList" class="loading-state">
-            <p>Laddar frågor från databasen...</p>
+            <p>Loading questions from the database...</p>
           </div>
 
           <div v-else-if="questionsList.length === 0" class="empty-state">
-            <p>Inga frågor hittades i databasen för denna epok än.</p>
+            <p>No questions found in the database for this epoch yet.</p>
           </div>
 
           <ul v-else class="questions-list">
@@ -229,7 +229,7 @@ onMounted(() => {
               </div>
               <button
                 class="btn-delete"
-                title="Ta bort från MySQL"
+                title="Delete this question from the database"
                 @click="deleteQuestion(q.questionId)"
               >
                 Ta bort
