@@ -8,12 +8,12 @@ import modernImg from '@/assets/images/modern-history.png'
 const router = useRouter()
 
 const scatteredPhotos = [
-  { src: antiquityImg, top: '4%', left: '3%', rotate: '-7deg', width: '220px' },
-  { src: modernImg, top: '36%', left: '2%', rotate: '4deg', width: '210px' },
-  { src: medievalImg, top: '68%', left: '4%', rotate: '-6deg', width: '230px' },
-  { src: medievalImg, top: '6%', left: '76%', rotate: '6deg', width: '220px' },
-  { src: antiquityImg, top: '38%', left: '77%', rotate: '-4deg', width: '230px' },
-  { src: modernImg, top: '70%', left: '75%', rotate: '7deg', width: '220px' }
+  { src: antiquityImg, top: '4%', left: '3%', rotate: '-7deg' },
+  { src: modernImg, top: '36%', left: '2%', rotate: '4deg' },
+  { src: medievalImg, top: '68%', left: '4%', rotate: '-6deg' },
+  { src: medievalImg, top: '5%', left: '74%', rotate: '6deg' },
+  { src: antiquityImg, top: '37%', left: '75%', rotate: '-4deg' },
+  { src: modernImg, top: '68%', left: '73%', rotate: '7deg' }
 ]
 
 const isRegister = ref(false)
@@ -106,11 +106,10 @@ async function handleSubmit() {
         :key="index"
         class="photo-pin"
         :style="{
-      top: photo.top,
-      left: photo.left,
-      width: photo.width,
-      transform: `rotate(${photo.rotate})`
-    }"
+          top: photo.top,
+          left: photo.left,
+          transform: `rotate(${photo.rotate})`
+        }"
       >
         <img :src="photo.src" alt="" class="photo-img" />
       </div>
@@ -197,30 +196,40 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1.5rem 1rem;
   overflow: hidden;
   background-color: var(--paper, #fdfbf7);
+  box-sizing: border-box;
 }
 
-/* Container som håller de utspridda bilderna */
+/* Dold som standard på mobiler och mindre surfplattor */
 .scattered-background {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
+  display: none;
 }
 
-/* Varje enskild bild med ram och arkivskugga */
-.photo-pin {
-  position: absolute;
-  background: #ffffff;
-  padding: 6px;
-  border: 1.5px solid var(--ink, #2c2621);
-  border-radius: 4px;
-  box-shadow: 3px 5px 0px rgba(44, 38, 33, 0.18);
-  opacity: 0.88; /* Lagom synlig utan att stjäla fokus från kortet */
-  transition: transform 0.3s ease;
+/* Visas endast på större skärmar (laptop/desktop) */
+@media (min-width: 1024px) {
+  .scattered-background {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .photo-pin {
+    position: absolute;
+    width: clamp(240px, 19vw, 360px);
+    background: #ffffff;
+    padding: 8px;
+    border: 1.5px solid var(--ink, #2c2621);
+    border-radius: 4px;
+    box-shadow: 4px 6px 0px rgba(44, 38, 33, 0.18);
+    opacity: 0.92;
+    transition: transform 0.3s ease;
+  }
 }
 
 .photo-img {
@@ -231,7 +240,6 @@ body {
   border-radius: 2px;
 }
 
-/* Säkerställ att inloggningskortet ligger framför */
 .auth-card {
   position: relative;
   width: 100%;
@@ -241,18 +249,18 @@ body {
   border-radius: 12px;
   padding: 2.5rem 2rem;
   box-shadow: 6px 8px 0px var(--ink, #2c2621);
+  z-index: 2;
 }
 
-/* --- Kortet --- */
-.auth-card {
-  position: relative;
-  width: 100%;
-  max-width: 420px;
-  background-color: #ffffff;
-  border: 2px solid var(--ink, #2c2621);
-  border-radius: 12px;
-  padding: 2.5rem 2rem;
-  box-shadow: 6px 8px 0px var(--ink, #2c2621);
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 1.75rem 1.25rem;
+    box-shadow: 4px 5px 0px var(--ink, #2c2621);
+  }
+
+  .auth-title {
+    font-size: 1.65rem;
+  }
 }
 
 .badge-wrapper {
