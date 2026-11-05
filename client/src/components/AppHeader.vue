@@ -99,7 +99,7 @@ onUnmounted(() => {
   align-items: center;
   justify-content: space-between;
   padding-block: clamp(0.85rem, 2vw, 1.5rem);
-  padding-inline: clamp(1rem, 6vw, 10rem);
+  padding-inline: var(--page-margin);
   max-width: 100% !important;
   box-sizing: border-box;
   flex-wrap: wrap;
@@ -213,7 +213,7 @@ nav {
   background-color: #241c15;
   border: 1.5px solid #4a3d31;
   border-radius: 8px;
-  min-width: 170px;
+  min-width: 100%;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
