@@ -181,3 +181,145 @@ onMounted(() => {
   </main>
 </template>
 
+<style scoped>
+.results-page {
+  padding-block: 2.5rem;
+}
+
+.results-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.subtitle {
+  color: var(--ink-muted);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0.5rem auto 0;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid rgba(43, 33, 24, 0.15);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.empty-card h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.empty-card p {
+  color: var(--ink-muted);
+  margin-bottom: 1.5rem;
+}
+
+.banner {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.success-banner {
+  background: #e6f4ea;
+  color: #137333;
+  border: 1px solid #ceead6;
+}
+
+.error-card {
+  background: #fce8e6;
+  border-color: #fad2cf;
+  color: #c5221f;
+}
+
+.results-table-container {
+  background: var(--card);
+  border: 1px solid rgba(43, 33, 24, 0.15);
+  border-radius: 8px;
+  overflow-x: auto;
+  box-shadow: 0 4px 12px rgba(43, 33, 24, 0.05);
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.results-table th {
+  background: rgba(43, 33, 24, 0.04);
+  padding: 1rem;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  border-bottom: 2px solid rgba(43, 33, 24, 0.1);
+  color: var(--ink);
+}
+
+.results-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(43, 33, 24, 0.08);
+  font-size: 0.95rem;
+}
+
+.results-table tr:last-child td {
+  border-bottom: none;
+}
+
+.col-score {
+  font-weight: 600;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.badge-pass {
+  background: #e6f4ea;
+  color: #137333;
+}
+
+.badge-fail {
+  background: #fce8e6;
+  color: #c5221f;
+}
+
+.col-date {
+  color: var(--ink-muted);
+}
+
+.btn-delete {
+  background: transparent;
+  border: 1px solid #d93025;
+  color: #d93025;
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+  background: #d93025;
+  color: #fff;
+}
+
+@media (max-width: 650px) {
+  .results-table th,
+  .results-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+}
+</style>
+
