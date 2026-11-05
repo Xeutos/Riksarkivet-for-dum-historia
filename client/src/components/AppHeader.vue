@@ -72,6 +72,9 @@ onUnmounted(() => {
             <RouterLink to="/mina-resultat" class="dropdown-item" @click="isDropdownOpen = false">
               Mina resultat
             </RouterLink>
+            <RouterLink to="/favorites" class="dropdown-item" @click="isDropdownOpen = false">
+              My Favorites
+            </RouterLink>
             <RouterLink to="/bidra" class="dropdown-item" @click="isDropdownOpen = false">
               Bidra med fråga
             </RouterLink>
