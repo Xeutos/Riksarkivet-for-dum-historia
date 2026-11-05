@@ -205,8 +205,8 @@ onMounted(() => {
 
         <!-- BEFINTLIGA FRÅGOR -->
         <section class="card list-card">
-          <h2>Frågor i databasen (Epok {{ selectedQuizId }})</h2>
-          <p class="section-desc">Hämtas dynamiskt via <code>GET /api/quiz/:quizId/questions</code></p>
+          <h2>Questions in the database (Quiz {{ selectedQuizId }})</h2>
+          <p class="section-desc">Questions are fetched dynamically via <code>GET /api/quiz/:quizId/questions</code></p>
 
           <div v-if="loadingList" class="loading-state">
             <p>Loading questions from the database...</p>
@@ -232,7 +232,7 @@ onMounted(() => {
                 title="Delete this question from the database"
                 @click="deleteQuestion(q.questionId)"
               >
-                Ta bort
+                Remove
               </button>
             </li>
           </ul>

@@ -22,13 +22,13 @@ function checkUser() {
 function getTitle(item) {
   if (item.articleId) {
     const article = placeholderArticles.find((a) => a.id === item.articleId)
-    return article ? `Artikel: ${article.title}` : `Artikel #${item.articleId}`
+    return article ? `Article: ${article.title}` : `Article #${item.articleId}`
   }
   if (item.quizId) {
     const era = eras.find((e) => e.id === item.quizId)
-    return era ? `Epok-quiz: ${era.name}` : `Quiz #${item.quizId}`
+    return era ? `Era-quiz: ${era.name}` : `Quiz #${item.quizId}`
   }
-  return 'Allmänt quiz'
+  return 'General quiz'
 }
 
 function formatDate(isoString) {
@@ -139,11 +139,11 @@ onMounted(() => {
           <table class="results-table">
             <thead>
               <tr>
-                <th>Quiz / Artikel</th>
-                <th>Poäng</th>
-                <th>Resultat</th>
-                <th>Datum</th>
-                <th>Åtgärd</th>
+                <th>Quiz / Article</th>
+                <th>Score</th>
+                <th>Result</th>
+                <th>Date</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -158,7 +158,7 @@ onMounted(() => {
                   <span
                     :class="['status-badge', (item.score / item.total >= 0.5) ? 'badge-pass' : 'badge-fail']"
                   >
-                    {{ (item.score / item.total >= 0.5) ? 'Godkänd' : 'Ej godkänd' }}
+                    {{ (item.score / item.total >= 0.5) ? 'Completed' : 'Failed' }}
                     ({{ Math.round((item.score / item.total) * 100) }}%)
                   </span>
                 </td>
