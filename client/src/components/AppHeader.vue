@@ -69,6 +69,9 @@ onUnmounted(() => {
             <RouterLink to="/mina-resultat" class="dropdown-item" @click="isDropdownOpen = false">
               My results
             </RouterLink>
+            <RouterLink to="/favorites" class="dropdown-item" @click="isDropdownOpen = false">
+              My Favorites
+            </RouterLink>
             <RouterLink to="/bidra" class="dropdown-item" @click="isDropdownOpen = false">
               Contribute with question
             </RouterLink>
@@ -88,22 +91,29 @@ onUnmounted(() => {
   background-color: #2c2621;
   border-bottom: 4px solid #8c3b24;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  width: 100%;
 }
 
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-block: 0.85rem;
+  padding-block: clamp(0.85rem, 2vw, 1.5rem);
+  padding-inline: var(--page-margin);
+  max-width: 100% !important;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .logo {
   font-family: var(--font-heading, serif);
-  font-size: 1.45rem;
-  letter-spacing: 0.03em;
+  font-size: clamp(1.2rem, 2vw + 0.5rem, 2rem);
+  letter-spacing: 0.02em;
   color: #f7f3eb;
   text-decoration: none;
   font-weight: 700;
+  line-height: 1.2;
 }
 
 .logo:hover {
@@ -113,46 +123,49 @@ onUnmounted(() => {
 nav {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: clamp(1rem, 2vw, 2rem);
+  flex-wrap: wrap;
 }
 
 .nav-link {
   color: #d8cfc4;
   text-decoration: none;
-  font-weight: 500;
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+  font-weight: 600;
   display: inline-block;
-  transition: color 0.15s ease;
+  transition: color 0.15s ease, transform 0.15s ease;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
   color: #e5a982;
-  font-weight: 700;
-  transform: scale(1.1);
+  transform: translateY(-1px);
 }
 
 .btn {
   background-color: transparent;
   color: #f7f3eb;
-  border: 1.5px solid #d8cfc4;
-  border-radius: 6px;
-  padding: 0.45rem 1rem;
+  border: 2px solid #d8cfc4;
+  border-radius: 8px;
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  padding: clamp(0.4rem, 0.8vw, 0.6rem) clamp(0.8rem, 1.5vw, 1.3rem);
   cursor: pointer;
   text-decoration: none;
   display: inline-block;
   font-weight: 600;
   box-shadow: 2px 2px 0px #8c3b24;
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
 .btn:hover {
-  background-color: #e5a982;
-  border-color: #e5a982;
-  color: #8c3b24;
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0px #110d0a;
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 2px 2px 0px #fff3e0;
+  color: var(--card);
+  transform: scale(1.08);
 }
 
-/* User Menu & Dropdown */
 .user-menu-container {
   position: relative;
 }
@@ -163,12 +176,12 @@ nav {
   gap: 0.5rem;
   background-color: #2f251c;
   color: #f7f3eb;
-  border: 1.5px solid #4a3d31;
-  border-radius: 6px;
-  padding: 0.4rem 0.85rem;
+  border: 2px solid #4a3d31;
+  border-radius: 8px;
+  padding: clamp(0.4rem, 0.8vw, 0.55rem) clamp(0.7rem, 1.2vw, 1rem);
   cursor: pointer;
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: clamp(0.9rem, 1.1vw, 1.05rem);
   font-weight: 600;
   transition: all 0.15s ease;
 }
@@ -179,8 +192,8 @@ nav {
 }
 
 .user-icon {
-  width: 18px;
-  height: 18px;
+  width: clamp(16px, 1.5vw, 20px);
+  height: clamp(16px, 1.5vw, 20px);
   stroke: #e5a982;
 }
 
@@ -199,8 +212,8 @@ nav {
   top: calc(100% + 0.5rem);
   background-color: #241c15;
   border: 1.5px solid #4a3d31;
-  border-radius: 6px;
-  min-width: 140px;
+  border-radius: 8px;
+  min-width: 100%;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
@@ -212,9 +225,9 @@ nav {
   background: none;
   border: none;
   text-align: left;
-  padding: 0.65rem 1rem;
+  padding: 0.75rem 1.1rem;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-family: inherit;
   color: #f7f3eb;
   transition: background-color 0.15s ease;
@@ -238,5 +251,18 @@ nav {
 
 .dropdown-item.logout:hover {
   background-color: rgba(248, 113, 113, 0.15);
+}
+
+/* Anpassning för mindre skärmar (t.ex. mobiler under 650px) */
+@media (max-width: 650px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav {
+    width: 100%;
+    justify-content: space-between;
+  }
 }
 </style>

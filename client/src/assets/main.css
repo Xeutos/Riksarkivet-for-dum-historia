@@ -11,6 +11,8 @@
 
   --font-heading: 'Playfair Display', Georgia, serif;
   --font-body: 'Source Sans 3', system-ui, sans-serif;
+
+  --page-margin: clamp(1rem, 6vw, 10rem);
 }
 
 *,
@@ -40,9 +42,9 @@ h1 {
 }
 
 .container {
-  max-width: 1100px;
-  margin-inline: auto;
-  padding-inline: 1rem;
+  max-width: 100%;
+  margin-inline: 0;
+  padding-inline: var(--page-margin);
 }
 
 .btn {

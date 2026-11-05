@@ -107,7 +107,7 @@ const scroll = (direction) => {
 
 <style>
 .home-container {
-  max-width: 1200px;
+  width: 100%;
   margin-inline: auto;
   padding: 0 1rem 4rem;
 }
@@ -218,14 +218,9 @@ const scroll = (direction) => {
 }
 
 .carousel-item {
-  flex: 0 0 280px;
+  flex: 1 1 0;
+  min-width: 260px;
   scroll-snap-align: center;
-}
-
-@media (min-width: 768px) {
-  .carousel-item {
-    flex: 0 0 340px;
-  }
 }
 
 .era-card-featured {
